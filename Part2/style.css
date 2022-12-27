@@ -1,0 +1,13 @@
+body {
+    padding: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label {
+    display: block;
+}
+
+label > div, input {
+    float: left;
+    width: 90vw;
+}

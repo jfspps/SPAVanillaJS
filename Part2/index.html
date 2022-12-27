@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vanilla Javascript</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div>
+        <h1>Data-Binding Example</h1>
+        <label for="firstName">
+            <div>First Name:</div><input type="text" data-bind="first" id="firstName"/>
+        </label>
+        <label for="lastName">
+            <div>Last Name:</div><input type="text" data-bind="last" id="lastName"/>
+        </label>
+        <label for="fullName">
+            <div>Full Name:</div><input type="text" data-bind="full" id="fullName" disabled />
+        </label>
+    </div>
+</body>
+
+<footer>
+    <script src="app.js"></script>
+</footer>
+</html>
