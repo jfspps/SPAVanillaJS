@@ -5,33 +5,77 @@
  * the same instance; hence, one can daisy-chain method calls in sequence.
  */
 class Wrapper {
+    /**
+     * Wrapper objects are characterised by three fields; the toggleDisplay method is used to update (refresh) the
+     * template styling for the new element based on the value of "display" (defaults to true)
+     * @param element
+     * @param text
+     * @param display
+     */
     constructor(element, text, display = true) {
         this.element = document.createElement(element);
         this.element.innerHTML = text;
         this.display = !display;
         this.toggleDisplay();
     }
+
+    /**
+     * Adds an event listener "click" to the current HTML element
+     * @param val
+     * @returns {Wrapper}
+     */
     click(val) {
         this.element.addEventListener("click", () => val());
         return this;
     }
+
+    /**
+     * Sets the mouse cursor style to "pointer" when the cursor hovers over the current element
+     * @returns {Wrapper}
+     */
     showSelectable() {
         this.element.style.cursor = "pointer";
         return this;
     }
+
+    /**
+     * Adds a class attribute to the current element
+     * @param className
+     * @returns {Wrapper}
+     */
     addClass(className) {
         this.element.classList.add(className);
         return this;
     }
+
+    /**
+     * Toggles the current element's display style before updating the display style attribute to "" if true
+     * and "none" if false
+     * @returns {Wrapper}
+     */
     toggleDisplay() {
         this.display = !this.display;
         this.element.style.display = this.display ? "" : "none";
         return this;
     }
+
+    /**
+     * Adds a child node element to the current element (which is also considered the parent node element)
+     * @param child
+     * @returns {Wrapper}
+     */
     appendChild(child) {
         this.element.appendChild(child.element);
         return this;
     }
+
+    /**
+     * Creates a new element based on the parameters provided and appends it as a child node to the current element
+     * @param element
+     * @param text
+     * @param display
+     * @returns {Wrapper}
+     */
     createChild(element, text, display = true) {
         var wrapper = new Wrapper(element, text, display);
         this.appendChild(wrapper);
@@ -60,14 +104,16 @@ class AnchorWrapper extends Wrapper {
         this.element.target = target;
     }
 
-    // Returns an instance of AnchorWrapper
+    /**
+     * Returns an instance of an anchor tag (defaults "target" to "_blank")
+     */
     static generate(href, text, target = "_blank") {
         return new AnchorWrapper(href, text, target);
     }
 }
 
 /**
- * Renders each domain user and post
+ * Renders each domain user and post, using a consistent sequence of HTML elements
  * @param post
  * @param user
  * @returns {any}
@@ -129,7 +175,7 @@ const run = (model) => get(model, "users", () =>
     get(model, "posts",
         // terminating done()
         () => {
-        // as mentioned, model is actually an object with fields that match the "domain" names
+            // as mentioned, model is actually an object with fields that match the "domain" names
             model.users.forEach(user => model.userIdx[user.id] = user);
             app.innerText = '';
             model.posts.forEach(post =>
@@ -141,7 +187,8 @@ const run = (model) => get(model, "users", () =>
  * Builds an instance of Wrapper (defined below), and builds a list based on all elements in "model", each with access
  * to the run() method defined
  */
-app.appendChild(Wrapper.generate("button", "Load").click(() => run({
-    userIdx: {}
-})).element);
+app.appendChild(
+    Wrapper.generate("button", "Load")
+        .click(() => run({userIdx: {}})
+        ).element);
 
